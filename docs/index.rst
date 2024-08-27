@@ -1,5 +1,5 @@
-SPI Component
-=============
+ADXL355 Component
+=================
 
 .. |COMPONENT| replace:: adxl355
 
