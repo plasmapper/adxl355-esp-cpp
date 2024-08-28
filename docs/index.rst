@@ -1,5 +1,5 @@
-ADXL355 Component
-=================
+Analog Devices ADXL355 Component
+================================
 
 .. |COMPONENT| replace:: adxl355
 
