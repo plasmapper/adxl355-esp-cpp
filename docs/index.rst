@@ -5,7 +5,7 @@ Analog Devices ADXL355 Component
 
 .. |ESP_IDF_VERSION| replace:: 5.3
    
-.. |VERSION| replace:: 1.0.0
+.. |VERSION| replace:: 1.1.0
 
 .. include:: ../../../installation.rst
 
@@ -93,10 +93,10 @@ the :cpp:class:`PL::Adxl355` and the :cpp:class:`PL::Spi` objects for the durati
 
 Examples
 --------
-| `Acceleration measurement <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.0.0/examples/acceleration_measurement>`_
-| `Acceleration waveform measurement <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.0.0/examples/acceleration_waveform_measurement>`_
-| `Activity detection <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.0.0/examples/activity_detection>`_
-| `Device info and self test <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.0.0/examples/device_info_and_self_test>`_
+| `Acceleration measurement <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.1.0/examples/acceleration_measurement>`_
+| `Acceleration waveform measurement <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.1.0/examples/acceleration_waveform_measurement>`_
+| `Activity detection <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.1.0/examples/activity_detection>`_
+| `Device info and self test <https://components.espressif.com/components/plasmapper/pl_adxl355/versions/1.1.0/examples/device_info_and_self_test>`_
 
 API reference
 -------------
