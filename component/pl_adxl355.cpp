@@ -210,12 +210,12 @@ esp_err_t Adxl355::ReadAccelerations(Adxl355_Accelerations& accelerations) {
 esp_err_t Adxl355::ClearFifo() {
   LockGuard lg(*this, *spi);
   uint8_t numberOfFifoSamples;
-  uint8_t data[3];
-  do {
-    ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_ENTRIES, numberOfFifoSamples), TAG, "read failed");
-    if (numberOfFifoSamples)
-      ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_DATA, &data, sizeof(data)), TAG, "read failed");
-  } while (numberOfFifoSamples);
+  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_ENTRIES, numberOfFifoSamples), TAG, "read failed");
+  ESP_RETURN_ON_FALSE(numberOfFifoSamples <= maxNumberOfFifoSamples, ESP_ERR_INVALID_RESPONSE, TAG, "invalid number of FIFO samples");
+  if (numberOfFifoSamples) {
+    uint8_t data[maxNumberOfFifoSamples * 3];
+    ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_DATA, data, numberOfFifoSamples * 3), TAG, "read failed");
+  }
   return ESP_OK;
 }
 

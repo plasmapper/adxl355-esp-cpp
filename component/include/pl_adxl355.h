@@ -80,7 +80,7 @@ public:
   /// @return error code
   esp_err_t ReadAccelerations(Adxl355_Accelerations& accelerations);
 
-  /// @brief Discards the valid 3-axis samples in the FIFO
+  /// @brief Discards the valid samples in the FIFO
   /// @return error code
   esp_err_t ClearFifo();
 
