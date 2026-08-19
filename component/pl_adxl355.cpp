@@ -1,5 +1,6 @@
 #include "pl_adxl355.h"
 #include "esp_check.h"
+#include <algorithm>
 
 //==============================================================================
 
@@ -329,6 +330,11 @@ esp_err_t Adxl355::ReadOffsets(Adxl355_Accelerations& offsets) {
 esp_err_t Adxl355::SetRawOffsets(Adxl355_RawAccelerations rawOffsets) {
   LockGuard lg(*this, *spi);
   uint8_t data[6];
+  const int32_t minRawOffset = -(1 << 19);
+  const int32_t maxRawOffset = (1 << 19) - 1;
+  rawOffsets.x = std::max(minRawOffset, std::min(maxRawOffset, rawOffsets.x));
+  rawOffsets.y = std::max(minRawOffset, std::min(maxRawOffset, rawOffsets.y));
+  rawOffsets.z = std::max(minRawOffset, std::min(maxRawOffset, rawOffsets.z));
   rawOffsets.x *= 4096;
   rawOffsets.y *= 4096;
   rawOffsets.z *= 4096;
@@ -398,6 +404,8 @@ esp_err_t Adxl355::ReadActivityDetectionThreshold(float& threshold) {
 esp_err_t Adxl355::SetRawActivityDetectionThreshold(uint32_t rawThreshold) {
   LockGuard lg(*this, *spi);
   uint8_t data[2];
+  const uint32_t maxRawThreshold = (1 << 19) - 1;
+  rawThreshold = std::min(maxRawThreshold, rawThreshold);
   rawThreshold >>= 3;
   data[0] = ((uint8_t*)&rawThreshold)[1];
   data[1] = ((uint8_t*)&rawThreshold)[0];
