@@ -309,7 +309,7 @@ private:
   esp_err_t Read(uint8_t address, uint8_t& dest);
   esp_err_t Read(uint8_t address, void* dest, size_t numberOfRegisters);
   esp_err_t Write(uint8_t address, uint8_t value);
-  esp_err_t Write(uint8_t address, void* src, size_t numberOfRegisters);
+  esp_err_t Write(uint8_t address, const void* src, size_t numberOfRegisters);
 };
 
 //==============================================================================

@@ -805,7 +805,7 @@ esp_err_t Adxl355::Write(uint8_t address, uint8_t value) {
 
 //==============================================================================
 
-esp_err_t Adxl355::Write(uint8_t address, void* src, size_t numberOfRegisters) {
+esp_err_t Adxl355::Write(uint8_t address, const void* src, size_t numberOfRegisters) {
   ESP_RETURN_ON_FALSE(src, ESP_ERR_INVALID_ARG, TAG, "src is null");
   ESP_RETURN_ON_ERROR(spiController.Transaction(0, address << 1, src, NULL, numberOfRegisters * 8), TAG, "SPI transaction failed");
   return ESP_OK;
