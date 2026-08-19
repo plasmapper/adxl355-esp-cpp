@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - ClearFifo possible infinite loop.
 - ReadAccelerationScaleFactor not returning an error for an unexpected range value.
+- SelfTest not setting a specific output data rate.
 
 ## [1.1.1] - 2026-08-13
 ### Fixed
