@@ -118,7 +118,7 @@ esp_err_t Adxl355::Initialize() {
 esp_err_t Adxl355::ReadDeviceInfo(Adxl355_DeviceInfo& deviceInfo) {
   LockGuard lg(*this, *spi);
   uint8_t data[4];
-  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_DEVID_AD, &data, sizeof(data)), TAG, "read failed");
+  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_DEVID_AD, data, sizeof(data)), TAG, "read failed");
   deviceInfo.vendorId = data[0];
   deviceInfo.familyId = data[1];
   deviceInfo.deviceId = data[2];
@@ -147,7 +147,7 @@ esp_err_t Adxl355::ReadNumberOfFifoSamples(uint8_t& numberOfFifoSamples) {
 esp_err_t Adxl355::ReadRawTemperature(uint16_t& rawTemperature) {
   LockGuard lg(*this, *spi);
   uint8_t data[2];
-  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_TEMP2, &data, sizeof(data)), TAG, "read failed");
+  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_TEMP2, data, sizeof(data)), TAG, "read failed");
   ((uint8_t*)&rawTemperature)[0] = data[1];
   ((uint8_t*)&rawTemperature)[1] = data[0];
   return ESP_OK;
@@ -170,7 +170,7 @@ esp_err_t Adxl355::ReadRawAccelerations(Adxl355_RawAccelerations& rawAcceleratio
   uint8_t data[9];
   rawAccelerations.x = rawAccelerations.y = rawAccelerations.z = 0;
 
-  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_XDATA3, &data, sizeof(data)), TAG, "read failed");
+  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_XDATA3, data, sizeof(data)), TAG, "read failed");
   
   ((uint8_t*)&rawAccelerations.x)[1] = data[2];
   ((uint8_t*)&rawAccelerations.x)[2] = data[1];
@@ -297,7 +297,7 @@ esp_err_t Adxl355::ReadRawOffsets(Adxl355_RawAccelerations& rawOffsets) {
   LockGuard lg(*this, *spi);
   uint8_t data[6];
   rawOffsets.x = rawOffsets.y = rawOffsets.z = 0;
-  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_OFFSET_X_H, &data, sizeof(data)), TAG, "read failed");
+  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_OFFSET_X_H, data, sizeof(data)), TAG, "read failed");
   ((uint8_t*)&rawOffsets.x)[2] = data[1];
   ((uint8_t*)&rawOffsets.x)[3] = data[0];
   ((uint8_t*)&rawOffsets.y)[2] = data[3];
@@ -338,7 +338,7 @@ esp_err_t Adxl355::SetRawOffsets(Adxl355_RawAccelerations rawOffsets) {
   data[3] = ((uint8_t*)&rawOffsets.y)[2];
   data[4] = ((uint8_t*)&rawOffsets.z)[3];
   data[5] = ((uint8_t*)&rawOffsets.z)[2];
-  ESP_RETURN_ON_ERROR(Write(ADXL355_REG_OFFSET_X_H, &data, sizeof(data)), TAG, "write failed");
+  ESP_RETURN_ON_ERROR(Write(ADXL355_REG_OFFSET_X_H, data, sizeof(data)), TAG, "write failed");
   return ESP_OK;
 }
 
@@ -374,7 +374,7 @@ esp_err_t Adxl355::ReadRawActivityDetectionThreshold(uint32_t& rawThreshold) {
   LockGuard lg(*this, *spi);
   uint8_t data[2];
   rawThreshold = 0;
-  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_ACT_THRESH_H, &data, sizeof(data)), TAG, "read failed");
+  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_ACT_THRESH_H, data, sizeof(data)), TAG, "read failed");
   ((uint8_t*)&rawThreshold)[0] = data[1];
   ((uint8_t*)&rawThreshold)[1] = data[0];
   rawThreshold <<= 3;
@@ -401,7 +401,7 @@ esp_err_t Adxl355::SetRawActivityDetectionThreshold(uint32_t rawThreshold) {
   rawThreshold >>= 3;
   data[0] = ((uint8_t*)&rawThreshold)[1];
   data[1] = ((uint8_t*)&rawThreshold)[0];
-  ESP_RETURN_ON_ERROR(Write(ADXL355_REG_ACT_THRESH_H, &data, sizeof(data)), TAG, "write failed");
+  ESP_RETURN_ON_ERROR(Write(ADXL355_REG_ACT_THRESH_H, data, sizeof(data)), TAG, "write failed");
   return ESP_OK;
 }
 
