@@ -211,7 +211,7 @@ esp_err_t Adxl355::ClearFifo() {
   LockGuard lg(*this, *spi);
   uint8_t numberOfFifoSamples;
   ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_ENTRIES, numberOfFifoSamples), TAG, "read failed");
-  ESP_RETURN_ON_FALSE(numberOfFifoSamples <= maxNumberOfFifoSamples, ESP_ERR_INVALID_RESPONSE, TAG, "invalid number of FIFO samples");
+  ESP_RETURN_ON_FALSE(numberOfFifoSamples <= maxNumberOfFifoSamples, ESP_ERR_INVALID_RESPONSE, TAG, "number of FIFO samples is invalid");
   if (numberOfFifoSamples) {
     uint8_t data[maxNumberOfFifoSamples * 3];
     ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_DATA, data, numberOfFifoSamples * 3), TAG, "read failed");
@@ -585,7 +585,6 @@ esp_err_t Adxl355::ReadAccelerationScaleFactor(float& accelerationScaleFactor) {
   LockGuard lg(*this, *spi);
   Adxl355_Range range;
   ESP_RETURN_ON_ERROR(ReadRange(range), TAG, "read range failed");
-  
   switch (range) {
     case Adxl355_Range::range2g:
       accelerationScaleFactor = accelerationScaleFactorRange2G;
@@ -597,8 +596,7 @@ esp_err_t Adxl355::ReadAccelerationScaleFactor(float& accelerationScaleFactor) {
       accelerationScaleFactor = accelerationScaleFactorRange8G;
       break;
     default:
-      accelerationScaleFactor = 1;
-      break;
+      ESP_RETURN_ON_ERROR(ESP_ERR_INVALID_RESPONSE, TAG, "range is invalid");
   }
 
   return ESP_OK;

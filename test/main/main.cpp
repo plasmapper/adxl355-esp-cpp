@@ -309,7 +309,7 @@ void TestSynchronizationAndExternalClock() {
 //==============================================================================
 
 void TestRangeIntPolarityAndI2CSpeed() {
-  for (uint8_t rangeToSet = 0; rangeToSet <= (uint8_t)PL::Adxl355_Range::range8g; rangeToSet++) {
+  for (uint8_t rangeToSet = (uint8_t)PL::Adxl355_Range::range2g; rangeToSet <= (uint8_t)PL::Adxl355_Range::range8g; rangeToSet++) {
     for (uint8_t intPolToSet = 0; intPolToSet <= (uint8_t)PL::Adxl355_InterruptPolarity::activeHigh; intPolToSet++) {
       for (uint8_t i2CSpeedToSet = 0; i2CSpeedToSet <= (uint8_t)PL::Adxl355_I2CSpeed::highSpeed; i2CSpeedToSet++) {
         TEST_ASSERT(adxl355.SetRange((PL::Adxl355_Range)rangeToSet) == ESP_OK);
