@@ -52,6 +52,7 @@ const uint8_t ADXL355_REG_RANGE = 0x2C;
 const uint8_t ADXL355_REG_POWER_CTL = 0x2D;
 const uint8_t ADXL355_REG_SELF_TEST = 0x2E;
 const uint8_t ADXL355_REG_RESET = 0x2F;
+const uint8_t ADXL355_REG_SHADOW = 0x50;
 
 const uint8_t ADXL355_REG_STATUS_DATA_RDY = 0x01;
 const uint8_t ADXL355_REG_STATUS_FIFO_FULL = 0x02;
@@ -788,6 +789,15 @@ esp_err_t Adxl355::SelfTest(Adxl355_Accelerations& accelerations) {
 esp_err_t Adxl355::Reset() {
   LockGuard lg(*this, *spi);
   ESP_RETURN_ON_ERROR(Write(ADXL355_REG_RESET, ADXL355_REG_RESET_RESET_CODE), TAG, "write failed");
+  return ESP_OK;
+}
+
+//==============================================================================
+
+esp_err_t Adxl355::ReadShadowRegisters(uint64_t& shadowRegisters) {
+  LockGuard lg(*this, *spi);
+  shadowRegisters = 0;
+  ESP_RETURN_ON_ERROR(Read(ADXL355_REG_SHADOW, &shadowRegisters, 5), TAG, "read failed");
   return ESP_OK;
 }
 

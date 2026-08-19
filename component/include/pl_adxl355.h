@@ -302,6 +302,11 @@ public:
   /// @return error code
   esp_err_t Reset();
 
+  /// @brief Reads the shadow registers (0x50...0x54)
+  /// @param shadowRegisters shadow registers value as a 64 bit integer (0x50 register value is the least significant byte)
+  /// @return error code
+  esp_err_t ReadShadowRegisters(uint64_t& shadowRegisters);
+
 private:
   SpiController spiController;
   std::shared_ptr<Spi> spi;

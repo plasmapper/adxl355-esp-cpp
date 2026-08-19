@@ -412,7 +412,15 @@ void TestSelfTest() {
 //==============================================================================
 
 void TestReset() {
+  uint64_t shadowRegistersBeforeReset;
+  TEST_ASSERT(adxl355.ReadShadowRegisters(shadowRegistersBeforeReset) == ESP_OK);
+  TEST_ASSERT(shadowRegistersBeforeReset != 0);
   TEST_ASSERT(adxl355.Reset() == ESP_OK);
+  vTaskDelay(50 / portTICK_PERIOD_MS);
+  uint64_t shadowRegistersAfterReset;
+  TEST_ASSERT(adxl355.ReadShadowRegisters(shadowRegistersAfterReset) == ESP_OK);
+  TEST_ASSERT_EQUAL(((uint32_t*)&shadowRegistersBeforeReset)[0], ((uint32_t*)&shadowRegistersAfterReset)[0]);
+  TEST_ASSERT_EQUAL(((uint32_t*)&shadowRegistersBeforeReset)[1], ((uint32_t*)&shadowRegistersAfterReset)[1]);
   TEST_ASSERT(adxl355.SetOutputDataRate(PL::Adxl355_OutputDataRate::odr4000) == ESP_OK);
   TEST_ASSERT(adxl355.EnableMeasurement() == ESP_OK);
   vTaskDelay(50 / portTICK_PERIOD_MS);
