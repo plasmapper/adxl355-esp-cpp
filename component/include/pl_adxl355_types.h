@@ -142,15 +142,15 @@ enum class Adxl355_Range : uint8_t {
 
 /// @brief ADXL355 interrupt polarity
 enum class Adxl355_InterruptPolarity : uint8_t {
-  /// @brief fast
+  /// @brief Active low
   activeLow = 0x00,
-  /// @brief high-speed
+  /// @brief Active high
   activeHigh = 0x01
 };
 
 //==============================================================================
 
-/// @brief ADXL355 acceleration range
+/// @brief ADXL355 I2C speed
 enum class Adxl355_I2CSpeed : uint8_t {
   /// @brief fast
   fast = 0x00,
