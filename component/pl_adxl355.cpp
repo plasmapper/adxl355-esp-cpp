@@ -12,7 +12,7 @@ namespace PL {
 
 //==============================================================================
 
-const uint8_t spiMode = 8;
+const uint8_t spiMode = 0;
 const int spiNumberOfAddressBits = 8;
 const int spiMaxSclkMisoDelay = 30;
 
