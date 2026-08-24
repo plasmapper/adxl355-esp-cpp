@@ -214,9 +214,12 @@ esp_err_t Adxl355::ClearFifo() {
   uint8_t numberOfFifoSamples;
   ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_ENTRIES, numberOfFifoSamples), TAG, "read failed");
   ESP_RETURN_ON_FALSE(numberOfFifoSamples <= maxNumberOfFifoSamples, ESP_ERR_INVALID_RESPONSE, TAG, "number of FIFO samples is invalid");
-  if (numberOfFifoSamples) {
-    uint8_t data[maxNumberOfFifoSamples * 3];
-    ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_DATA, data, numberOfFifoSamples * 3), TAG, "read failed");
+  constexpr uint8_t maxNumberOfSamplesToRead = 3;
+  uint8_t data[maxNumberOfSamplesToRead * 3];
+  while (numberOfFifoSamples) {
+    uint8_t numberOfSamplesToRead = std::min(numberOfFifoSamples, maxNumberOfSamplesToRead);
+    ESP_RETURN_ON_ERROR(Read(ADXL355_REG_FIFO_DATA, data, numberOfSamplesToRead * 3), TAG, "read failed");
+    numberOfFifoSamples -= numberOfSamplesToRead;
   }
   return ESP_OK;
 }
