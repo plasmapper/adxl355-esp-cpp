@@ -107,11 +107,13 @@ public:
   esp_err_t ReadOffsets(Adxl355_Accelerations& offsets);
 
   /// @brief Sets the raw X-, Y- and Z-axis acceleration offsets
+  /// @note Should not be called while measurement is enabled
   /// @param rawOffsets raw acceleration offsets
   /// @return error code
   esp_err_t SetRawOffsets(Adxl355_RawAccelerations rawOffsets);
 
   /// @brief Sets the X-, Y- and Z-axis acceleration offsets
+  /// @note Should not be called while measurement is enabled
   /// @param offsets acceleration offsets, g
   /// @return error code
   esp_err_t SetOffsets(Adxl355_Accelerations offsets);
@@ -122,7 +124,8 @@ public:
   esp_err_t ReadActivityDetectionAxes(Adxl355_Axes& axes);
 
   /// @brief Enables and disables activity detection
-  /// @param axes axes for which activity detection should be enabled 
+  /// @note Should not be called while measurement is enabled
+  /// @param axes axes for which activity detection should be enabled
   /// @return error code
   esp_err_t SetActivityDetectionAxes(Adxl355_Axes axes);
 
@@ -137,11 +140,13 @@ public:
   esp_err_t ReadActivityDetectionThreshold(float& threshold);
 
   /// @brief Sets the raw activity detection threshold
+  /// @note Should not be called while measurement is enabled
   /// @param rawThreshold raw activity detection threshold (max: 524288)
   /// @param rawThreshold error code
   esp_err_t SetRawActivityDetectionThreshold(uint32_t rawThreshold);
 
   /// @brief Sets the activity detection threshold
+  /// @note Should not be called while measurement is enabled
   /// @param threshold activity detection threshold, g
   /// @return error code
   esp_err_t SetActivityDetectionThreshold(float threshold);
@@ -152,6 +157,7 @@ public:
   esp_err_t ReadActivityDetectionCount(uint8_t& count);
 
   /// @brief Sets the number of consecutive events above threshold required to detect activity
+  /// @note Should not be called while measurement is enabled
   /// @param count activity detection count
   /// @return error code
   esp_err_t SetActivityDetectionCount(uint8_t count);
@@ -172,6 +178,7 @@ public:
   esp_err_t ReadOutputDataRate(Adxl355_OutputDataRate& outputDataRate);
 
   /// @brief Sets the output data rate
+  /// @note Should not be called while measurement is enabled
   /// @param outputDataRate output data rate
   /// @return error code
   esp_err_t SetOutputDataRate(Adxl355_OutputDataRate outputDataRate);
@@ -182,6 +189,7 @@ public:
   esp_err_t ReadFifoWatermark(uint8_t& watermark);
 
   /// @brief Sets the watermark number of samples stored in the FIFO that triggers a FIFO_FULL condition
+  /// @note Should not be called while measurement is enabled
   /// @param watermark output data rate
   /// @return error code
   esp_err_t SetFifoWatermark(uint8_t watermark);
@@ -202,15 +210,18 @@ public:
   esp_err_t ReadSynchronization(Adxl355_Synchronization& synchronization);
  
   /// @brief Sets the synchronization mode
+  /// @note Should not be called while measurement is enabled
   /// @param synchronization synchronization mode
   /// @return error code
   esp_err_t SetSynchronization(Adxl355_Synchronization synchronization);
 
   /// @brief Enables the external clock
+  /// @note Should not be called while measurement is enabled
   /// @return error code
   esp_err_t EnableExternalClock();
 
   /// @brief Disables the external clock
+  /// @note Should not be called while measurement is enabled
   /// @return error code
   esp_err_t DisableExternalClock();
 
@@ -230,6 +241,7 @@ public:
   esp_err_t ReadAccelerationScaleFactor(float& accelerationScaleFactor);
 
   /// @brief Sets the acceleration range
+  /// @note Should not be called while measurement is enabled
   /// @param range acceleration range
   /// @return error code
   esp_err_t SetRange(Adxl355_Range range);
@@ -238,8 +250,9 @@ public:
   /// @param polarity interrupt polarity
   /// @return error code
   esp_err_t ReadInterruptPolarity(Adxl355_InterruptPolarity& polarity);
- 
+
   /// @brief Sets the interrupt polarity
+  /// @note Should not be called while measurement is enabled
   /// @param polarity interrupt polarity
   /// @return error code
   esp_err_t SetInterruptPolarity(Adxl355_InterruptPolarity polarity);
@@ -248,8 +261,9 @@ public:
   /// @param speed I2C speed
   /// @return error code
   esp_err_t ReadI2CSpeed(Adxl355_I2CSpeed& speed);
- 
+
   /// @brief Sets the I2C speed
+  /// @note Should not be called while measurement is enabled
   /// @param speed I2C speed
   /// @return error code
   esp_err_t SetI2CSpeed(Adxl355_I2CSpeed speed);
