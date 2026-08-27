@@ -85,12 +85,15 @@ public:
   esp_err_t ClearFifo();
 
   /// @brief Reads the raw X-, Y- and Z-axis accelerations from the FIFO
+  /// @note Polls FIFO_ENTRIES with no delay between polls while holding the lock; at low output data
+  /// rates this can busy-wait near 100% CPU for the full sample period until timeout.
   /// @param rawAccelerations raw accelerations
   /// @param timeout timeout in FreeRTOS ticks
   /// @return error code
   esp_err_t ReadRawAccelerationsFromFifo(Adxl355_RawAccelerations& rawAccelerations, TickType_t timeout = portMAX_DELAY);
 
   /// @brief Reads the X-, Y- and Z-axis accelerations from the FIFO
+  /// @note See ReadRawAccelerationsFromFifo for the polling behavior.
   /// @param accelerations accelerations, g
   /// @param timeout timeout in FreeRTOS ticks
   /// @return error code
@@ -108,7 +111,7 @@ public:
 
   /// @brief Sets the raw X-, Y- and Z-axis acceleration offsets
   /// @note Should not be called while measurement is enabled
-  /// @param rawOffsets raw acceleration offsets
+  /// @param rawOffsets raw acceleration offsets (min: -524288, max: 524287)
   /// @return error code
   esp_err_t SetRawOffsets(Adxl355_RawAccelerations rawOffsets);
 
@@ -141,7 +144,7 @@ public:
 
   /// @brief Sets the raw activity detection threshold
   /// @note Should not be called while measurement is enabled
-  /// @param rawThreshold raw activity detection threshold (max: 524288)
+  /// @param rawThreshold raw activity detection threshold (max: 524287)
   /// @param rawThreshold error code
   esp_err_t SetRawActivityDetectionThreshold(uint32_t rawThreshold);
 
