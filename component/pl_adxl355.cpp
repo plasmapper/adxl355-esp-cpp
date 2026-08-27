@@ -265,16 +265,16 @@ esp_err_t Adxl355::ReadRawAccelerationsFromFifo(Adxl355_RawAccelerations& rawAcc
 
   ESP_RETURN_ON_FALSE(((data[2] & 0x03) == 0x01 && (data[5] & 0x03) == 0x00 && (data[8] & 0x03) == 0x00), ESP_ERR_INVALID_RESPONSE, TAG, "FIFO data is invalid");
 
-  ((uint8_t*)&rawAccelerations.x)[1] = data[2];
+  ((uint8_t*)&rawAccelerations.x)[1] = data[2] & 0xF0;
   ((uint8_t*)&rawAccelerations.x)[2] = data[1];
   ((uint8_t*)&rawAccelerations.x)[3] = data[0];
-  ((uint8_t*)&rawAccelerations.y)[1] = data[5];
+  ((uint8_t*)&rawAccelerations.y)[1] = data[5] & 0xF0;
   ((uint8_t*)&rawAccelerations.y)[2] = data[4];
   ((uint8_t*)&rawAccelerations.y)[3] = data[3];
-  ((uint8_t*)&rawAccelerations.z)[1] = data[8];
+  ((uint8_t*)&rawAccelerations.z)[1] = data[8] & 0xF0;
   ((uint8_t*)&rawAccelerations.z)[2] = data[7];
   ((uint8_t*)&rawAccelerations.z)[3] = data[6];
-  
+
   rawAccelerations.x /= 4096;
   rawAccelerations.y /= 4096;
   rawAccelerations.z /= 4096;
