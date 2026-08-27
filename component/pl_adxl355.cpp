@@ -544,7 +544,7 @@ esp_err_t Adxl355::EnableExternalClock() {
   LockGuard lg(*this, *spi);
   uint8_t syncRegister;
   ESP_RETURN_ON_ERROR(Read(ADXL355_REG_SYNC, syncRegister), TAG, "read failed");
-  syncRegister &= ~ADXL355_REG_SYNC_EXT_CLK;
+  syncRegister |= ADXL355_REG_SYNC_EXT_CLK;
   ESP_RETURN_ON_ERROR(Write(ADXL355_REG_SYNC, syncRegister), TAG, "write failed");
   return ESP_OK;
 }
@@ -555,7 +555,7 @@ esp_err_t Adxl355::DisableExternalClock() {
   LockGuard lg(*this, *spi);
   uint8_t syncRegister;
   ESP_RETURN_ON_ERROR(Read(ADXL355_REG_SYNC, syncRegister), TAG, "read failed");
-  syncRegister |= ADXL355_REG_SYNC_EXT_CLK;
+  syncRegister &= ~ADXL355_REG_SYNC_EXT_CLK;
   ESP_RETURN_ON_ERROR(Write(ADXL355_REG_SYNC, syncRegister), TAG, "write failed");
   return ESP_OK;
 }
@@ -566,7 +566,7 @@ esp_err_t Adxl355::IsExternalClockEnabled(bool& isEnabled) {
   LockGuard lg(*this, *spi);
   uint8_t syncRegister;
   ESP_RETURN_ON_ERROR(Read(ADXL355_REG_SYNC, syncRegister), TAG, "read failed");
-  isEnabled = !(syncRegister & ADXL355_REG_SYNC_EXT_CLK);
+  isEnabled = syncRegister & ADXL355_REG_SYNC_EXT_CLK;
   return ESP_OK;
 }
   

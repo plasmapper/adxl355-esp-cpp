@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adxl355::ClearFifo exceeding the maximum SPI transaction size.
 - Invalid SPI mode value.
 - Adxl355::SelfTest setting range and output data rate while measurement was enabled.
+- EnableExternalClock, DisableExternalClock and IsExternalClockEnabled inverting the EXT_CLK bit.
 
 ## [1.2.1] - 2026-08-20
 ### Fixed
