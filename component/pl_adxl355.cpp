@@ -4,6 +4,10 @@
 
 //==============================================================================
 
+// Raw register values are assembled/disassembled without accounting for host byte order,
+// relying on the target being little-endian (true for every ESP32 variant).
+static_assert(__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__, "raw value byte assembly assumes a little-endian host");
+
 static const char* TAG = "pl_adxl355";
 
 //==============================================================================
