@@ -750,8 +750,8 @@ esp_err_t Adxl355::IsDataReadyEnabled(bool& isEnabled) {
 
 esp_err_t Adxl355::SelfTest(Adxl355_Accelerations& accelerations) {
   LockGuard lg(*this, *spi);
-  bool measurementIsEnabled;
-  ESP_RETURN_ON_ERROR(IsMeasurementEnabled(measurementIsEnabled), TAG, "is measurement enabled failed");
+  bool measurementWasEnabled;
+  ESP_RETURN_ON_ERROR(IsMeasurementEnabled(measurementWasEnabled), TAG, "is measurement enabled failed");
   Adxl355_Range range;
   ESP_RETURN_ON_ERROR(ReadRange(range), TAG, "read range failed");
   Adxl355_OutputDataRate outputDataRate;
@@ -759,9 +759,9 @@ esp_err_t Adxl355::SelfTest(Adxl355_Accelerations& accelerations) {
 
   Adxl355_Accelerations accelNoForce, accelForce;
 
+  ESP_RETURN_ON_ERROR(DisableMeasurement(), TAG, "disable measurement failed");
   ESP_RETURN_ON_ERROR(SetRange(Adxl355_Range::range8g), TAG, "set range failed");
   ESP_RETURN_ON_ERROR(SetOutputDataRate(Adxl355_OutputDataRate::odr4000), TAG, "set output data rate failed");
-  ESP_RETURN_ON_ERROR(DisableMeasurement(), TAG, "disable measurement failed");
 
   ESP_RETURN_ON_ERROR(Write(ADXL355_REG_SELF_TEST, ADXL355_REG_SELF_TEST_ST1), TAG, "write failed");
   vTaskDelay(2);
@@ -772,14 +772,15 @@ esp_err_t Adxl355::SelfTest(Adxl355_Accelerations& accelerations) {
   ESP_RETURN_ON_ERROR(Write(ADXL355_REG_SELF_TEST, ADXL355_REG_SELF_TEST_ST2 | ADXL355_REG_SELF_TEST_ST1), TAG, "write failed");
   vTaskDelay(2);
   ESP_RETURN_ON_ERROR(ReadAccelerations(accelForce), TAG, "read accelerations failed");
-  if (!measurementIsEnabled) {
-    ESP_RETURN_ON_ERROR(DisableMeasurement(), TAG, "disable measurement failed");
-  }
+
+  ESP_RETURN_ON_ERROR(DisableMeasurement(), TAG, "disable measurement failed");
   ESP_RETURN_ON_ERROR(SetRange(range), TAG, "set range failed");
   ESP_RETURN_ON_ERROR(SetOutputDataRate(outputDataRate), TAG, "set output data rate failed");
-
   ESP_RETURN_ON_ERROR(Write(ADXL355_REG_SELF_TEST, 0), TAG, "write failed");
   ESP_RETURN_ON_ERROR(ClearFifo(), TAG, "clear fifo failed");
+  if (measurementWasEnabled) {
+    ESP_RETURN_ON_ERROR(EnableMeasurement(), TAG, "enable measurement failed");
+  }
 
   accelerations.x = accelForce.x - accelNoForce.x;
   accelerations.y = accelForce.y - accelNoForce.y;
