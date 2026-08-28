@@ -145,7 +145,7 @@ public:
   /// @brief Sets the raw activity detection threshold
   /// @note Should not be called while measurement is enabled
   /// @param rawThreshold raw activity detection threshold (max: 524287)
-  /// @param rawThreshold error code
+  /// @return error code
   esp_err_t SetRawActivityDetectionThreshold(uint32_t rawThreshold);
 
   /// @brief Sets the activity detection threshold
@@ -228,7 +228,7 @@ public:
   /// @return error code
   esp_err_t DisableExternalClock();
 
-  /// @brief Checksif the external clock is enabled
+  /// @brief Checks if the external clock is enabled
   /// @param isEnabled true if the external clock is enabled
   /// @return error code
   esp_err_t IsExternalClockEnabled(bool& isEnabled);
